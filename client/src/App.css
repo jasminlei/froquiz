@@ -1,0 +1,90 @@
+#root {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-section {
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.content {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: transparent;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+.frog-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.big-emoji {
+  font-size: 10rem;
+  line-height: 1;
+  animation: bounce 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.speech-bubble {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid transparent;
+  border-radius: 15px;
+  padding: 1.5rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 1.2rem;
+  color: #fff;
+  border-image: linear-gradient(
+    90deg,
+    var(--pink-primary),
+    var(--green-primary)
+  );
+  border-image-slice: 1;
+  min-width: 200px;
+  text-align: center;
+  flex-grow: 1;
+  max-width: 300px;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid var(--pink-primary);
+  transform: translateY(-50%);
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
