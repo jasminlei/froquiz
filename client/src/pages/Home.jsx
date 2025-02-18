@@ -1,12 +1,19 @@
 import './Home.css'
+import { useContext } from 'react'
+import { useAuth } from '../context/authContext'
 
 function Home() {
+  const { isLoggedIn, username } = useAuth()
   return (
     <div className='home'>
       <div className='hero'>
         <div className='frog-container'>
           <div className='big-emoji'>🐸</div>
-          <div className='speech-bubble'>welcome! ready to quiz?</div>
+          <div className='speech-bubble'>
+            {isLoggedIn
+              ? `hello ${username}! you ready to show off your skills, or should I grab some popcorn first?`
+              : 'welcome! ready to quiz?'}
+          </div>
         </div>
 
         <h1>You think you know everthing about coding!? Let's see!</h1>

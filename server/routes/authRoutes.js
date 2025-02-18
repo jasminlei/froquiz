@@ -7,7 +7,6 @@ require('dotenv').config()
 const router = express.Router()
 
 router.post('/register', async (req, res) => {
-  console.log('🔥 Register route reached')
   const { username, password } = req.body
 
   try {
@@ -25,12 +24,15 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body
+  console.log('Login route reached')
 
   try {
     const result = await pool.query('SELECT * FROM users WHERE username = $1', [
       username,
     ])
     const user = result.rows[0]
+    console.log('Stored Password:', user.password)
+    console.log('Entered Password:', password)
 
     if (!user) {
       return res.status(400).json({ message: 'User not found' })
@@ -53,7 +55,7 @@ router.post('/login', async (req, res) => {
 
 router.get('/users', async (req, res) => {
   try {
-    const result = await pool.query('SELECT id, username FROM users')
+    const result = await pool.query('SELECT id, username, password FROM users')
     const users = result.rows
 
     res.status(200).json(users)
