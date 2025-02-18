@@ -6,16 +6,16 @@ const bodyParser = require('body-parser')
 dotenv.config()
 
 const authRoutes = require('./routes/authRoutes')
+const quizRoutes = require('./routes/quizRoutes')
 const pool = require('./config/db')
 
 const app = express()
 
-// Middleware
 app.use(cors())
 app.use(bodyParser.json())
 
-// Use routes
 app.use('/api/auth', authRoutes)
+app.use('/api', quizRoutes)
 
 app.get('/', (req, res) => {
   res.send('✅ API is running...')

@@ -21,8 +21,8 @@ const Login = () => {
       })
 
       if (response.status === 200) {
-        const { token } = response.data
-        login(token, username)
+        const { token, userId } = response.data
+        login(token, username, userId)
         navigate('/')
       } else {
         console.error('Login failed')

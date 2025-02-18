@@ -31,8 +31,6 @@ router.post('/login', async (req, res) => {
       username,
     ])
     const user = result.rows[0]
-    console.log('Stored Password:', user.password)
-    console.log('Entered Password:', password)
 
     if (!user) {
       return res.status(400).json({ message: 'User not found' })
@@ -46,7 +44,7 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     })
-    res.json({ token })
+    res.json({ token, userId: user.id })
   } catch (error) {
     console.error('Error executing query', error)
     res.status(500).json({ message: 'Server error' })
