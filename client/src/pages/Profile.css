@@ -1,0 +1,77 @@
+.profile {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  font-family: 'Prata', serif;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #cccccc;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.feature {
+  background-color: #121212;
+  opacity: 0.9;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.feature h2 {
+  margin-bottom: 1rem;
+  font-family: 'Prata', serif;
+  font-weight: 400;
+  font-size: 1.4em;
+  color: #ffffff;
+}
+
+.feature p,
+.feature li {
+  color: #666666;
+}
+
+.feature ul {
+  list-style: none;
+  padding: 0;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.logout {
+  background: #e74c3c;
+  color: white;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+.logout:hover {
+  background: #c0392b;
+}

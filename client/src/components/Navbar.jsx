@@ -11,10 +11,15 @@ function Navbar() {
         <div className='navbar-brand'>
           <Link to='/'>🐸 froquiz</Link>
         </div>
+
+        {isLoggedIn && (
+          <div className='navbar-text'>{username} is logged in</div>
+        )}
+
         <div className='navbar-links'>
           {isLoggedIn ? (
             <>
-              <span>Hello {username}! </span>
+              <Link to='/profile'>Profile</Link>
               <Link to='/' onClick={logout}>
                 Logout
               </Link>
