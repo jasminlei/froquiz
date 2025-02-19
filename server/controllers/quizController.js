@@ -37,6 +37,9 @@ const calculateScore = async (answers) => {
     )
     questionText = questionResult.rows[0]?.question_text || ''
     codeExample = questionResult.rows[0]?.code_example || null
+
+    let userAnswer = null
+
     if (textAnswer) {
       const result = await pool.query(
         'SELECT correct_answer_text FROM correct_answers WHERE question_id = $1',
@@ -49,6 +52,8 @@ const calculateScore = async (answers) => {
       ) {
         isCorrect = true
       }
+
+      userAnswer = textAnswer
     } else if (selectedAnswerId) {
       const result = await pool.query(
         'SELECT answer_text, is_correct FROM answer_options WHERE id = $1',
@@ -64,6 +69,9 @@ const calculateScore = async (answers) => {
         correctAnswerResult.rows[0]?.answer_text || 'No correct answer found'
 
       isCorrect = result.rows[0]?.is_correct || false
+
+      const selectedAnswer = result.rows[0]?.answer_text || 'No answer selected'
+      userAnswer = selectedAnswer
     }
 
     if (isCorrect) {
@@ -72,6 +80,7 @@ const calculateScore = async (answers) => {
       wrongAnswers.push({
         questionText,
         correctAnswer,
+        userAnswer,
         codeExample: codeExample || null,
       })
     }
@@ -139,7 +148,11 @@ const submitQuiz = async (req, res) => {
       )
     }
 
-    res.json({ score, maxScore, wrongAnswers })
+    res.json({
+      score,
+      maxScore,
+      wrongAnswers,
+    })
   } catch (error) {
     console.error('Error submitting quiz:', error)
     res.status(500).send('Internal Server Error')

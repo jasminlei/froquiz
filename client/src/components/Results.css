@@ -4,6 +4,7 @@
   margin-top: 1.5rem;
   font-weight: 200;
   font-family: 'Fira Code', monospace;
+  text-align: center;
 }
 
 .results-container h2 {
@@ -12,6 +13,7 @@
   margin-top: 1.5rem;
   font-weight: 200;
   font-family: 'Fira Code', monospace;
+  text-align: center;
 }
 
 .results-container ul {
@@ -35,6 +37,17 @@
   font-size: 1rem;
   color: var(--green-light);
   background-color: rgba(76, 175, 80, 0.15);
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.wrong-answer {
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  color: var(--pink-light);
+  background-color: rgba(247, 85, 134, 0.15);
   padding: 4px 8px;
   border-radius: 4px;
   display: inline-block;

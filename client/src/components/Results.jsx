@@ -14,12 +14,12 @@ function Results({ score, wrongAnswers, maxScore }) {
           {score === maxScore
             ? 'Unbelievable. Did you cheat?'
             : score === 0
-            ? 'Zero points? Even a rock would’ve guessed something right by accident.'
+            ? `Zero points? Even a rock would've guessed something right by accident.`
             : score >= maxScore * 0.75
-            ? 'Oh wow, look at you, almost competent! Too bad ‘almost’ doesn’t pay the bills.'
+            ? `Oh wow, look at you, almost competent! Too bad 'almost' doesn't pay the bills.`
             : score >= maxScore / 2
-            ? 'Are you even trying? I’ve seen pond scum with more intellect.'
-            : 'Honestly, just hand over the quiz. Watching you struggle is getting painful'}
+            ? `Are you even trying? I've seen pond scum with more intellect.`
+            : `Honestly, just hand over the quiz. Watching you struggle is getting painful`}
         </div>
       </div>
       <h1>Quiz Results</h1>
@@ -44,7 +44,7 @@ function Results({ score, wrongAnswers, maxScore }) {
 
       {wrongAnswers.length > 0 && (
         <div>
-          <h3>Incorrect answers:</h3>
+          <h3>What went wrong:</h3>
           <ul>
             {wrongAnswers.map((wrongAnswer, index) => (
               <li key={index}>
@@ -56,7 +56,11 @@ function Results({ score, wrongAnswers, maxScore }) {
                 )}
                 <br />
                 <span className='correct-answer'>
-                  {wrongAnswer.correctAnswer}
+                  <b>Correct answer:</b> {wrongAnswer.correctAnswer}
+                </span>
+                <br />
+                <span className='wrong-answer'>
+                  <b>Your answer:</b> {wrongAnswer.userAnswer}
                 </span>
               </li>
             ))}
