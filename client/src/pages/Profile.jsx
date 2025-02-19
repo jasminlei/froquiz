@@ -1,36 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../context/authContext'
-import axios from 'axios'
+import { fetchUserProfile } from '../services/userService'
 import './Profile.css'
 import ProfileFrogComment from '../components/ProfileFrogComment'
-
-const baseUrl = 'http://localhost:3000'
+import Certificates from '../components/Certificates'
+import BestScores from '../components/BestScores'
 
 function Profile() {
   const { username, userId } = useAuth()
   const [bestScores, setBestScores] = useState([])
   const [certificates, setCertificates] = useState([])
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await axios.get(
-          `${baseUrl}/api/user-profile/${userId}`
-        )
-        setBestScores(response.data.bestScores)
-        setCertificates(response.data.certificates)
-      } catch (error) {
-        console.error('Error fetching user profile:', error)
+    const loadUserProfile = async () => {
+      if (userId) {
+        try {
+          const data = await fetchUserProfile(userId)
+          setBestScores(data.bestScores)
+          setCertificates(data.certificates)
+        } catch (error) {
+          setError('Failed to load user profile.')
+        }
       }
     }
 
-    if (userId) {
-      fetchUserProfile()
-    }
+    loadUserProfile()
   }, [userId])
 
   return (
     <div className='profile'>
+      {error && <p className='error'>{error}</p>}
       <div className='hero'>
         <div className='frog-container'>
           <div className='big-emoji'>🐸</div>
@@ -43,39 +43,14 @@ function Profile() {
           Oh, look at you, collecting achievements like you're actually good at
           this!
           <br />
-          Maybe you’ve even earned a certificate or two — finally, something to
+          Maybe you've even earned a certificate or two — finally, something to
           prove your worth. 💚
         </p>
       </div>
 
       <div className='features'>
-        <div className='feature'>
-          <h2>Certificates</h2>
-          {certificates.length > 0 ? (
-            <ul>
-              {certificates.map((cert, index) => (
-                <li key={index}>{cert}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>No certificates earned yet.</p>
-          )}
-        </div>
-
-        <div className='feature'>
-          <h2>Best Scores</h2>
-          {bestScores.length > 0 ? (
-            <ul>
-              {bestScores.map((quiz, index) => (
-                <li key={index}>
-                  {quiz.quizTitle}: {quiz.bestScore} points
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No scores recorded yet.</p>
-          )}
-        </div>
+        <Certificates certificates={certificates} />
+        <BestScores bestScores={bestScores} />
       </div>
     </div>
   )
