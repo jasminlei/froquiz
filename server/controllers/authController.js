@@ -37,8 +37,8 @@ const registerUser = async (req, res) => {
     const userId = await insertUser(username, hashedPassword)
     res.status(201).json({ userId })
   } catch (error) {
-    console.error('Error executing query', error)
-    res.status(500).json({ message: 'Server error' })
+    console.error('Error during registration:', error)
+    next(new Error('Registration failed. Please try again.'))
   }
 }
 
