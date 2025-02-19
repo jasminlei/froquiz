@@ -1,6 +1,6 @@
 import './Home.css'
-import { useContext } from 'react'
 import { useAuth } from '../context/authContext'
+import { Link } from 'react-router-dom'
 
 function Home() {
   const { isLoggedIn, username } = useAuth()
@@ -29,25 +29,13 @@ function Home() {
       </div>
       <div className='features'>
         <div className='feature'>
-          <h2>Box 1</h2>
-          <p>
-            text text text text text text text text text text text text text
-            text text
-          </p>
+          <h2>Easy JavaScript Quiz</h2>
+          <p>Here you can test if you know the basics of JavaScript.</p>
+          <Link to='/quiz/5'>PLAY 🐸</Link>
         </div>
         <div className='feature'>
-          <h2>Box 2</h2>
-          <p>
-            text text text text text text text text text text text text text
-            text text
-          </p>
-        </div>
-        <div className='feature'>
-          <h2>Box 3</h2>
-          <p>
-            text text text text text text text text text text text text text
-            text text
-          </p>
+          <h2>DIFFICULT JavaScript Quiz</h2>
+          <p>Blaadibal</p>
         </div>
       </div>
     </div>

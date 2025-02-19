@@ -83,7 +83,13 @@ function QuizPage() {
   }
 
   if (showResults) {
-    return <Results score={score} wrongAnswers={wrongAnswers} />
+    return (
+      <Results
+        score={score}
+        wrongAnswers={wrongAnswers}
+        maxScore={quizData.questions.length}
+      />
+    )
   }
 
   return (

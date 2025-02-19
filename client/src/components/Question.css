@@ -13,6 +13,11 @@
   font-weight: 500;
   color: #ffffff;
   margin-bottom: 10px;
+}
+
+.code-example {
+  padding: 20px;
+  margin: 15px 0;
   font-family: 'Fira Code', monospace;
 }
 
