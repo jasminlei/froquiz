@@ -10,7 +10,7 @@ dotenv.config()
 
 const authRoutes = require('./routes/authRoutes')
 const quizRoutes = require('./routes/quizRoutes')
-const pool = require('./config/db')
+const userRoutes = require('./routes/userRoutes')
 
 const app = express()
 app.use(cors())
@@ -21,6 +21,7 @@ app.use(logger)
 
 app.use('/api/auth', authRoutes, validateUserRegistration)
 app.use('/api', quizRoutes)
+app.use('/api', userRoutes)
 
 app.get('/', (req, res) => {
   res.send('✅ API is running... ribbit ribbit')

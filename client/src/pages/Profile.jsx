@@ -1,16 +1,33 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '../context/authContext'
+import axios from 'axios'
 import './Profile.css'
 import ProfileFrogComment from '../components/ProfileFrogComment'
 
-function Profile() {
-  const { username } = useAuth()
+const baseUrl = 'http://localhost:3000'
 
-  const mockCertificates = ['Quiz One', 'Quiz Two']
-  const mockBestScores = {
-    'Quiz 1': 85,
-    'Quiz 2': 92,
-  }
+function Profile() {
+  const { username, userId } = useAuth()
+  const [bestScores, setBestScores] = useState([])
+  const [certificates, setCertificates] = useState([])
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get(
+          `${baseUrl}/api/user-profile/${userId}`
+        )
+        setBestScores(response.data.bestScores)
+        setCertificates(response.data.certificates)
+      } catch (error) {
+        console.error('Error fetching user profile:', error)
+      }
+    }
+
+    if (userId) {
+      fetchUserProfile()
+    }
+  }, [userId])
 
   return (
     <div className='profile'>
@@ -21,11 +38,11 @@ function Profile() {
             <ProfileFrogComment />
           </div>
         </div>
-        <h1> {username}</h1>
+        <h1>{username}</h1>
         <p>
           Oh, look at you, collecting achievements like you're actually good at
           this!
-          <br></br>
+          <br />
           Maybe you’ve even earned a certificate or two — finally, something to
           prove your worth. 💚
         </p>
@@ -34,9 +51,9 @@ function Profile() {
       <div className='features'>
         <div className='feature'>
           <h2>Certificates</h2>
-          {mockCertificates.length > 0 ? (
+          {certificates.length > 0 ? (
             <ul>
-              {mockCertificates.map((cert, index) => (
+              {certificates.map((cert, index) => (
                 <li key={index}>{cert}</li>
               ))}
             </ul>
@@ -47,11 +64,11 @@ function Profile() {
 
         <div className='feature'>
           <h2>Best Scores</h2>
-          {Object.keys(mockBestScores).length > 0 ? (
+          {bestScores.length > 0 ? (
             <ul>
-              {Object.entries(mockBestScores).map(([game, score], index) => (
+              {bestScores.map((quiz, index) => (
                 <li key={index}>
-                  {game}: {score} points
+                  {quiz.quizTitle}: {quiz.bestScore} points
                 </li>
               ))}
             </ul>
