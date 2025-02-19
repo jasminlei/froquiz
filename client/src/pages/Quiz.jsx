@@ -3,9 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useAuth } from '../context/authContext'
 import Question from '../components/Question'
 import Results from '../components/Results'
-import axios from 'axios'
-
-const baseUrl = 'http://localhost:3000'
+import { fetchQuizData, submitQuiz } from '../services/quizService'
 
 function QuizPage() {
   const { quizId } = useParams()
@@ -18,16 +16,16 @@ function QuizPage() {
   const [showResults, setShowResults] = useState(false)
 
   useEffect(() => {
-    const fetchQuizData = async () => {
+    const fetchQuiz = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/api/quizzes/${quizId}`)
-        setQuizData(response.data)
+        const data = await fetchQuizData(quizId)
+        setQuizData(data)
       } catch (error) {
         console.error('Error fetching quiz data:', error)
       }
     }
 
-    fetchQuizData()
+    fetchQuiz()
   }, [quizId])
 
   const handleAnswerChange = (
@@ -64,14 +62,9 @@ function QuizPage() {
         textAnswer: answer.textAnswer || null,
       }))
 
-      const response = await axios.post(`${baseUrl}/api/submit-quiz`, {
-        userId,
-        quizId,
-        answers: formattedAnswers,
-      })
-
-      setScore(response.data.score)
-      setWrongAnswers(response.data.wrongAnswers)
+      const response = await submitQuiz(userId, quizId, formattedAnswers)
+      setScore(response.score)
+      setWrongAnswers(response.wrongAnswers)
       setShowResults(true)
     } catch (error) {
       console.error('Error submitting quiz:', error)
