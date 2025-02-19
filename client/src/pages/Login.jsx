@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/authContext'
-import axios from 'axios'
-
-const baseUrl = 'http://localhost:3000'
+import { loginUser } from '../services/authService'
 
 const Login = () => {
   const [username, setUsername] = useState('')
@@ -15,17 +13,14 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post(`${baseUrl}/api/auth/login`, {
-        username,
-        password,
-      })
+      const response = await loginUser(username, password)
+      const { token, userId } = response
 
-      if (response.status === 200) {
-        const { token, userId } = response.data
+      if (token && userId) {
         login(token, username, userId)
         navigate('/')
       } else {
-        console.error('Login failed')
+        console.error('Login failed: Invalid response structure')
         alert('Invalid credentials')
       }
     } catch (error) {

@@ -2,10 +2,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const pool = require('../config/db')
 
-const hashPassword = async (password) => {
-  return await bcrypt.hash(password, 10)
-}
-
 const insertUser = async (username, hashedPassword) => {
   const result = await pool.query(
     'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id',
@@ -29,16 +25,25 @@ const generateToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' })
 }
 
-const registerUser = async (req, res) => {
+const registerUser = async (req, res, next) => {
   const { username, password } = req.body
 
   try {
-    const hashedPassword = await hashPassword(password)
+    const existingUser = await pool.query(
+      'SELECT * FROM users WHERE username = $1',
+      [username]
+    )
+
+    if (existingUser.rows.length > 0) {
+      return res.status(400).json({ message: 'Username already exists' })
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10)
     const userId = await insertUser(username, hashedPassword)
-    res.status(201).json({ userId })
+    return res.status(201).json({ userId })
   } catch (error) {
     console.error('Error during registration:', error)
-    next(new Error('Registration failed. Please try again.'))
+    return next(new Error('Registration failed. Please try again.'))
   }
 }
 

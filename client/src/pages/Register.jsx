@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-
-const baseUrl = 'http://localhost:3000'
+import { registerUser } from '../services/authService'
 
 const Register = () => {
   const [username, setUsername] = useState('')
@@ -13,42 +11,43 @@ const Register = () => {
     e.preventDefault()
 
     try {
-      const response = await axios.post(`${baseUrl}/api/auth/register`, {
-        username,
-        password,
-      })
+      const response = await registerUser(username, password)
+      console.log('Registration response:', response)
 
-      if (response.status === 201) {
-        console.log('Registration successful:', response.data)
+      if (response && response.status === 201) {
         navigate('/login')
       } else {
-        console.log(
-          'Registration failed:',
-          response.data.message || 'Unknown error'
-        )
-        alert(response.data.message || 'Registration failed. Please try again.')
+        handleRegistrationError(response)
       }
     } catch (error) {
-      if (error.response) {
-        console.error('Server error:', error.response.data)
-        alert(
-          error.response.data.message || 'An error occurred during registration'
-        )
-      } else if (error.request) {
-        console.error('No response from server:', error.request)
-        alert('No response from server. Please check your network connection')
-      } else {
-        console.error('Unexpected error:', error.message)
-        alert('An unexpected error occurred. Please try again later.')
-      }
+      handleError(error)
     }
+  }
+
+  const handleRegistrationError = (error) => {
+    if (error.errors && error.errors.length > 0) {
+      const errorMessage = error.errors[0].msg
+      console.log(errorMessage)
+      alert(errorMessage)
+    } else {
+      const genericErrorMessage = 'An unknown error occurred.'
+      console.log(genericErrorMessage)
+      alert(genericErrorMessage)
+    }
+  }
+
+  const handleError = (error) => {
+    console.error('Error during registration', error)
+    alert(
+      error.response?.data?.message || 'An error occurred during registration'
+    )
   }
 
   return (
     <div>
       <div className='frog-container'>
         <div className='big-emoji'>🐸</div>
-        <div className='speech-bubble'>yay! fill your information below</div>
+        <div className='speech-bubble'>Yay! Fill your information below</div>
       </div>
 
       <form onSubmit={handleSubmit}>

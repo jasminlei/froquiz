@@ -10,8 +10,7 @@ const validateUserRegistration = [
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() })
     }
-    next() // Proceed to the next middleware or route handler
+    next()
   },
 ]
-
 module.exports = validateUserRegistration
