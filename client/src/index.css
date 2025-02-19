@@ -3,7 +3,7 @@
   line-height: 1.5;
   font-weight: 400;
   font-size: 15px;
-  color: #d3d3d3;
+  color: #eeeeee;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -105,18 +105,10 @@ p {
   font-family: 'Lato', sans-serif;
 }
 
-.feature {
-  background-color: rgba(255, 255, 255, 0.05);
-  position: relative;
-  border: 2px solid transparent;
-  border-image-slice: 1;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-}
-
 .feature h2 {
   color: #ffffff;
 }
 
 .feature p {
-  color: #d3d3d3;
+  color: #ffffff;
 }

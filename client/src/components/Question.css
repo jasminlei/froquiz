@@ -1,11 +1,46 @@
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-150%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(150%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .question-container {
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid transparent;
   border-radius: 10px;
   padding: 20px;
-  margin: 15px 0;
+  margin: 15px auto;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-in-out;
+  width: 100%;
+  max-width: 700px;
+  position: relative;
+}
+
+/* Ulos liukuva kysymys */
+.question-exit {
+  animation: slideOutLeft 0.8s forwards;
+}
+
+/* Sisään tuleva kysymys */
+.question-enter {
+  animation: slideInRight 0.8s forwards;
 }
 
 .question-text {
@@ -82,4 +117,26 @@ h1 {
   font-size: 2rem;
   font-family: 'Prata', serif;
   margin-bottom: 1rem;
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

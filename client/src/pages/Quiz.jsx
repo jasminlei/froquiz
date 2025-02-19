@@ -4,6 +4,8 @@ import { useAuth } from '../context/authContext'
 import Question from '../components/Question'
 import Results from '../components/Results'
 import { fetchQuizData, submitQuiz } from '../services/quizService'
+import './Auth.css'
+import './quiz.css'
 
 function QuizPage() {
   const { quizId } = useParams()
@@ -48,7 +50,12 @@ function QuizPage() {
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < quizData.questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1)
+      const currentElement = document.querySelector('.question-container')
+      currentElement.classList.add('question-exit')
+
+      setTimeout(() => {
+        setCurrentQuestionIndex((prevIndex) => prevIndex + 1)
+      }, 500)
     } else {
       handleSubmit()
     }
@@ -86,13 +93,17 @@ function QuizPage() {
   }
 
   return (
-    <div>
+    <div className='quiz-container'>
       <div className='frog-container'>
         <div className='big-emoji'>🐸</div>
         <div className='speech-bubble'>Time to quiz!!!</div>
       </div>
-      <h1>{quizData.title}</h1>
-      <p>{quizData.description}</p>
+      <h1 className='quiz-title'>{quizData.title}</h1>
+      <p className='quiz-description'>{quizData.description}</p>
+
+      <h2 className='quiz-question-number'>
+        Question {currentQuestionIndex + 1} / {quizData.questions.length}
+      </h2>
 
       <div>
         <Question
@@ -102,7 +113,7 @@ function QuizPage() {
         />
       </div>
 
-      <button onClick={handleNextQuestion}>
+      <button className='quiz-button' onClick={handleNextQuestion}>
         {currentQuestionIndex < quizData.questions.length - 1
           ? 'Next'
           : 'Submit'}

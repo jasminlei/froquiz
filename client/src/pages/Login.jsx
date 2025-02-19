@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/authContext'
 import { loginUser } from '../services/authService'
+import './Auth.css'
 
 const Login = () => {
   const [username, setUsername] = useState('')
@@ -14,28 +15,23 @@ const Login = () => {
     e.preventDefault()
     try {
       const response = await loginUser(username, password)
-      const { token, userId } = response
-
-      if (token && userId) {
-        login(token, username, userId)
+      if (response && response.userId) {
+        login(response.token, username, response.userId)
         navigate('/')
       } else {
-        console.error('Login failed: Invalid response structure')
         alert('Invalid credentials')
       }
     } catch (error) {
-      console.error('Error during login', error)
       alert('An error occurred during login')
     }
   }
 
   return (
-    <div>
+    <div className='auth-container'>
       <div className='frog-container'>
         <div className='big-emoji'>🐸</div>
         <div className='speech-bubble'>Welcome back! Please login below</div>
       </div>
-      <h2>Login Page</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor='username'>Username</label>

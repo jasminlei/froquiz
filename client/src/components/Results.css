@@ -1,3 +1,9 @@
+.results-container {
+  max-width: 70%;
+  width: 100%;
+  margin: 0 auto;
+}
+
 .results-container h3 {
   font-size: 1.5rem;
   color: var(--pink-light);

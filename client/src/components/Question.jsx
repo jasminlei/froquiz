@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Question.css'
 
 const Question = ({ question, handleAnswerChange }) => {
+  const [animate, setAnimate] = useState('question-enter')
+
+  useEffect(() => {
+    setAnimate('question-enter') // Uusi kysymys saa sisääntuloefektin
+  }, [question])
+
   return (
-    <div className='question-container'>
+    <div className={`question-container ${animate}`}>
       <h3 className='question-text'>{question.question_text}</h3>
 
       {question.code_example && (

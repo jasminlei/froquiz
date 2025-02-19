@@ -33,6 +33,11 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+  transition: transform 0.2s ease-out;
+}
+
+.feature:hover {
+  transform: scale(1.05);
 }
 
 .feature h2 {
@@ -46,5 +51,24 @@
 }
 
 .feature p {
-  color: #666666;
+  color: #c0c0c0;
+}
+
+.pink-word {
+  font-weight: bold;
+  color: var(--pink-light);
+}
+
+.green-word {
+  font-weight: bold;
+  color: var(--green-light);
+}
+
+@keyframes colorChange {
+  0% {
+    color: var(--pink-light); /* Start with pink */
+  }
+  100% {
+    color: var(--green-light); /* End with green */
+  }
 }

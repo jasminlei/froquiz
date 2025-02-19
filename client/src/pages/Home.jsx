@@ -18,24 +18,31 @@ function Home() {
 
         <h1>You think you know everthing about coding!? Let's see!</h1>
         <p>
-          Welcome to the ultimate challenge! Ready to test your skills and
-          knowledge? In this game, you'll face a series of questions that will
-          push your coding knowledge to the limit. Choose from a variety of
-          themes and difficulty modes, and log in to track your progress. If you
-          perform well, you’ll earn a cool certificate to show off your
-          expertise. But, if you're not quite there yet... well, maybe it's time
-          to rethink your career choice!
+          Are you ready to test your skills and knowledge? In this game, you'll
+          face a series of questions that will{' '}
+          <span className='green-word'>
+            push your coding knowledge to the limit
+          </span>
+          . If you perform well,
+          <span className='pink-word'> you’ll earn a cool certificate</span> to
+          show off your expertise. But, if you're not quite there yet... well,
+          maybe it's time to rethink your career choice!
         </p>
       </div>
       <div className='features'>
-        <div className='feature'>
-          <h2>Easy JavaScript Quiz</h2>
-          <p>Here you can test if you know the basics of JavaScript.</p>
-          <Link to='/quiz/5'>PLAY 🐸</Link>
-        </div>
+        <Link to='/quiz/5'>
+          <div className='feature'>
+            <h2>Play "easy" JavaScript Quiz</h2>
+            <p>
+              Here you can test if you know the basics of JavaScript. If do well
+              enough, you'll get a{' '}
+              <span className='certificate-word'>certificate!</span>
+            </p>
+          </div>
+        </Link>
         <div className='feature'>
           <h2>DIFFICULT JavaScript Quiz</h2>
-          <p>Blaadibal</p>
+          <p>coming soon</p>
         </div>
       </div>
     </div>
