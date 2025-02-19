@@ -1,32 +1,106 @@
 const pool = require('../config/db')
 
+const fetchQuizById = async (quizId) => {
+  const quizResult = await pool.query('SELECT * FROM quizzes WHERE id = $1', [
+    quizId,
+  ])
+  return quizResult.rows[0]
+}
+
+const fetchQuestionsByQuizId = async (quizId) => {
+  return await pool.query('SELECT * FROM questions WHERE quiz_id = $1', [
+    quizId,
+  ])
+}
+
+const fetchAnswerOptions = async (questionId) => {
+  const answerOptionsResult = await pool.query(
+    'SELECT * FROM answer_options WHERE question_id = $1',
+    [questionId]
+  )
+  return answerOptionsResult.rows
+}
+
+const calculateScore = async (answers) => {
+  let score = 0
+  let wrongAnswers = []
+
+  for (const answer of answers) {
+    const { questionId, selectedAnswerId, textAnswer } = answer
+    let correctAnswer = null
+    let isCorrect = false
+    let questionText = ''
+    let codeExample = null
+    const questionResult = await pool.query(
+      'SELECT question_text, code_example FROM questions WHERE id = $1',
+      [questionId]
+    )
+    questionText = questionResult.rows[0]?.question_text || ''
+    codeExample = questionResult.rows[0]?.code_example || null
+    if (textAnswer) {
+      const result = await pool.query(
+        'SELECT correct_answer_text FROM correct_answers WHERE question_id = $1',
+        [questionId]
+      )
+      correctAnswer = result.rows[0]?.correct_answer_text
+
+      if (
+        textAnswer.trim().toLowerCase() === correctAnswer.trim().toLowerCase()
+      ) {
+        isCorrect = true
+      }
+    } else if (selectedAnswerId) {
+      const result = await pool.query(
+        'SELECT answer_text, is_correct FROM answer_options WHERE id = $1',
+        [selectedAnswerId]
+      )
+
+      const correctAnswerResult = await pool.query(
+        'SELECT answer_text FROM answer_options WHERE question_id = $1 AND is_correct = TRUE',
+        [questionId]
+      )
+
+      correctAnswer =
+        correctAnswerResult.rows[0]?.answer_text || 'No correct answer found'
+
+      isCorrect = result.rows[0]?.is_correct || false
+    }
+
+    if (isCorrect) {
+      score++
+    } else {
+      wrongAnswers.push({
+        questionText,
+        correctAnswer,
+        codeExample: codeExample || null,
+      })
+    }
+  }
+
+  return { score, wrongAnswers }
+}
+
+const insertUserQuizResult = async (userId, quizId, score) => {
+  await pool.query(
+    'INSERT INTO user_quiz_results (user_id, quiz_id, score) VALUES ($1, $2, $3)',
+    [userId, quizId, score]
+  )
+}
+
 const getQuiz = async (req, res) => {
   const quizId = req.params.id
 
   try {
-    const quizResult = await pool.query('SELECT * FROM quizzes WHERE id = $1', [
-      quizId,
-    ])
-
-    if (quizResult.rows.length === 0) {
+    const quiz = await fetchQuizById(quizId)
+    if (!quiz) {
       return res.status(404).json({ message: 'Quiz not found' })
     }
 
-    const quiz = quizResult.rows[0]
-
-    const questionsResult = await pool.query(
-      'SELECT * FROM questions WHERE quiz_id = $1',
-      [quizId]
-    )
-
+    const questionsResult = await fetchQuestionsByQuizId(quizId)
     const questions = await Promise.all(
       questionsResult.rows.map(async (question) => {
         if (question.question_type === 'multiple-choice') {
-          const answerOptionsResult = await pool.query(
-            'SELECT * FROM answer_options WHERE question_id = $1',
-            [question.id]
-          )
-          const answerOptions = answerOptionsResult.rows
+          const answerOptions = await fetchAnswerOptions(question.id)
           return { ...question, answerOptions }
         }
         return question
@@ -49,66 +123,8 @@ const submitQuiz = async (req, res) => {
   const { userId, quizId, answers } = req.body
 
   try {
-    let score = 0
-    let wrongAnswers = []
-
-    for (const answer of answers) {
-      const { questionId, selectedAnswerId, textAnswer } = answer
-      let correctAnswer = null
-      let isCorrect = false
-      let questionText = ''
-      let codeExample = null
-      // Get the question text
-      const questionResult = await pool.query(
-        'SELECT question_text, code_example FROM questions WHERE id = $1',
-        [questionId]
-      )
-      questionText = questionResult.rows[0]?.question_text || ''
-      codeExample = questionResult.rows[0]?.code_example || null
-      if (textAnswer) {
-        const result = await pool.query(
-          'SELECT correct_answer_text FROM correct_answers WHERE question_id = $1',
-          [questionId]
-        )
-        correctAnswer = result.rows[0]?.correct_answer_text
-
-        if (
-          textAnswer.trim().toLowerCase() === correctAnswer.trim().toLowerCase()
-        ) {
-          isCorrect = true
-        }
-      } else if (selectedAnswerId) {
-        const result = await pool.query(
-          'SELECT answer_text, is_correct FROM answer_options WHERE id = $1',
-          [selectedAnswerId]
-        )
-
-        const correctAnswerResult = await pool.query(
-          'SELECT answer_text FROM answer_options WHERE question_id = $1 AND is_correct = TRUE',
-          [questionId]
-        )
-
-        correctAnswer =
-          correctAnswerResult.rows[0]?.answer_text || 'No correct answer found'
-
-        isCorrect = result.rows[0]?.is_correct || false
-      }
-
-      if (isCorrect) {
-        score++
-      } else {
-        wrongAnswers.push({
-          questionText,
-          correctAnswer,
-          codeExample: codeExample || null,
-        })
-      }
-    }
-
-    await pool.query(
-      'INSERT INTO user_quiz_results (user_id, quiz_id, score) VALUES ($1, $2, $3)',
-      [userId, quizId, score]
-    )
+    const { score, wrongAnswers } = await calculateScore(answers)
+    await insertUserQuizResult(userId, quizId, score)
 
     const maxScoreResult = await pool.query(
       'SELECT COUNT(*) AS max_score FROM questions WHERE quiz_id = $1',
@@ -123,11 +139,7 @@ const submitQuiz = async (req, res) => {
       )
     }
 
-    res.json({
-      score,
-      maxScore,
-      wrongAnswers,
-    })
+    res.json({ score, maxScore, wrongAnswers })
   } catch (error) {
     console.error('Error submitting quiz:', error)
     res.status(500).send('Internal Server Error')
