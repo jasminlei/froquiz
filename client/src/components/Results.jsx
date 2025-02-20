@@ -1,10 +1,12 @@
 import React from 'react'
 import { useAuth } from '../context/authContext'
+import { Link } from 'react-router-dom'
 
 import './Results.css'
 
 function Results({ score, wrongAnswers, maxScore }) {
   const { isLoggedIn } = useAuth()
+  const { userId } = useAuth()
 
   return (
     <div className='results-container'>
@@ -27,17 +29,18 @@ function Results({ score, wrongAnswers, maxScore }) {
         Your Score: {score}/{maxScore}
       </h2>
       {score === maxScore && !isLoggedIn && (
-        <div className='certificate-container'>
+        <div className='cert-container'>
           Congratulations! Only if you were logged in... you would have gotten a
           certificate!
         </div>
       )}
       {score === maxScore && isLoggedIn && (
-        <div className='certificate-container'>
-          <h2>Congratulations! You've earned a certificate!</h2>
+        <div className='cert-container'>
+          <h3>Congratulations! You've earned a certificate!</h3>
           <p>
-            Your score is {score}/{maxScore}, which is 100%! See your
-            certificate in your profile.
+            Your score is {score}/{maxScore}, which is just enough to get
+            certified! See and download your certificate at{' '}
+            <Link to={`/profile/${userId}`}>your profile</Link>.
           </p>
         </div>
       )}
