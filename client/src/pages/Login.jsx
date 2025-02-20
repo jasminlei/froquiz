@@ -15,10 +15,6 @@ const Login = () => {
     e.preventDefault()
     try {
       const response = await loginUser(username, password)
-      console.log('response', response)
-      console.log('response.userId', response.userId)
-      console.log('response.token', response.token)
-      console.log('response.username', response.username)
       if (response && response.userId) {
         login(response.token, username, response.userId)
         navigate('/')

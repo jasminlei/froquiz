@@ -12,8 +12,6 @@ const Register = () => {
 
     try {
       const response = await registerUser(username, password)
-      console.log('Registration response:', response)
-
       if (response && response.status === 201) {
         navigate('/login')
       } else {
