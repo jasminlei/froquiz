@@ -1,6 +1,9 @@
 app = "froquiz"
 
 [build]
+  builder = "paketobuildpacks/builder:base"
+  buildpacks = ["gcr.io/paketo-buildpacks/nodejs"]
+
 
 [env]
 PORT = "3000"  # Frontend port (React)
