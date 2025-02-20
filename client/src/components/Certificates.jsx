@@ -12,13 +12,6 @@ const Certificates = ({ certificates, username }) => {
   }
   return (
     <div>
-      <p class='certificate-text'>
-        Download your certificates as PDFs and flex them on LinkedIn!
-        <br />
-        Or print them out, frame them, and hang them on your wall—because your
-        achievements deserve to be seen!
-        <br />
-      </p>
       <ul>
         {certificates.map((cert, index) => (
           <Certificate username={username} quizName={cert} />

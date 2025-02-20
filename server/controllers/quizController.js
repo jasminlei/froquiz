@@ -141,7 +141,10 @@ const submitQuiz = async (req, res) => {
     )
     const maxScore = parseInt(maxScoreResult.rows[0].max_score, 10)
 
-    if (score === maxScore) {
+    const scorePercentage = score / maxScore
+    const passPercentage = 0.7
+
+    if (scorePercentage >= passPercentage) {
       await pool.query(
         'UPDATE user_quiz_results SET certificate_issued = TRUE WHERE user_id = $1 AND quiz_id = $2',
         [userId, quizId]
