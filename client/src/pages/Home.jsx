@@ -11,8 +11,8 @@ function Home() {
           <div className='big-emoji'>🐸</div>
           <div className='speech-bubble'>
             {isLoggedIn
-              ? `hello ${username}! you ready to show off your skills, or should I grab some popcorn first?`
-              : 'welcome! ready to quiz?'}
+              ? `Hello ${username}! Are you ready to show off your skills, or should I grab some popcorn first?`
+              : 'Welcome! Ready to quiz? Remember to login to get a certificate!'}
           </div>
         </div>
 
