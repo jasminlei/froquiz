@@ -43,7 +43,9 @@ const registerUser = async (req, res, next) => {
     return res.status(201).json({ userId })
   } catch (error) {
     console.error('Error during registration:', error)
-    return next(new Error('Registration failed. Please try again.'))
+    return res
+      .status(500)
+      .json({ message: 'Registration failed. Please try again.' })
   }
 }
 
@@ -65,7 +67,7 @@ const loginUser = async (req, res) => {
     res.json({ token, userId: user.id })
   } catch (error) {
     console.error('Error executing query', error)
-    res.status(500).json({ message: 'Server error' })
+    res.status(500).json({ message: 'Login failed. Please try again.' })
   }
 }
 
