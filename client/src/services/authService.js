@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const baseUrl = '/api/auth'
+const baseUrl = '/api'
 
 export const loginUser = async (username, password) => {
   try {
-    const response = await axios.post(`${baseUrl}/login`, {
+    const response = await axios.post(`${baseUrl}/auth/login`, {
       username,
       password,
     })
@@ -29,7 +29,7 @@ export const loginUser = async (username, password) => {
 
 export const registerUser = async (username, password) => {
   try {
-    const response = await axios.post(`${baseUrl}/register`, {
+    const response = await axios.post(`${baseUrl}/auth/register`, {
       username,
       password,
     })

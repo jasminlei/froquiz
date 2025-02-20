@@ -25,11 +25,14 @@ app.use('/api/auth', authRoutes, validateUserRegistration)
 app.use('/api', quizRoutes)
 app.use('/api', userRoutes)
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.send('✅ API is running... ribbit ribbit')
 })
 
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`)
+})
