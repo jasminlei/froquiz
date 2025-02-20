@@ -48,7 +48,9 @@ function Profile() {
         </p>
       </div>
 
-      <div className='features'>
+      <div className='feature'>
+        <h2>Your certificates</h2>
+
         <Certificates certificates={certificates} username={username} />
       </div>
     </div>

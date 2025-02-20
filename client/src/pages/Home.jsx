@@ -32,17 +32,16 @@ function Home() {
       <div className='features'>
         <Link to='/quiz/5'>
           <div className='feature'>
-            <h2>Play "easy" JavaScript Quiz</h2>
+            <h2>Play Easy JavaScript Quiz</h2>
             <p>
-              Here you can test if you know the basics of JavaScript. If do well
-              enough, you'll get a{' '}
-              <span className='certificate-word'>certificate!</span>
+              Here you can test if you know the basics of JavaScript. It would
+              be embarassing if you didn't, right?
             </p>
           </div>
         </Link>
         <div className='feature'>
-          <h2>DIFFICULT JavaScript Quiz</h2>
-          <p>coming soon</p>
+          <p>More quizzes coming soon!</p>
+          🐸
         </div>
       </div>
     </div>

@@ -11,3 +11,25 @@
   margin: 10px 0;
   border-radius: 6px;
 }
+
+.certificate-text {
+  font-size: 18px;
+  color: #ffffff;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+  margin: 10px 0;
+}
+
+.certificate-text h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff8c00; /* Voit valita oman värin */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.certificate-text p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #ffffff;
+  margin-top: 5px;
+}
