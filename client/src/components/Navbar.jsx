@@ -9,7 +9,7 @@ function Navbar() {
     <nav className='navbar'>
       <div className='navbar-content'>
         <div className='navbar-brand'>
-          <Link to='/'>🐸 froquiz</Link>
+          <Link to='/'>🐸 FrogQuiz</Link>
         </div>
 
         {isLoggedIn && (
