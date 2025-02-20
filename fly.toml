@@ -1,0 +1,32 @@
+app = "froquiz"
+
+[build]
+
+[env]
+PORT = "3000"  # Frontend port (React)
+
+[[services]]
+# Frontend (React)
+internal_port = 3000
+protocol = "http"
+force_https = true
+handlers = [
+  { path = "/*", service = "client" }
+]
+
+[[services]]
+# Backend (Node.js/Express)
+internal_port = 4000
+protocol = "http"
+force_https = true
+handlers = [
+  { path = "/api/*", service = "server" }
+]
+
+[[services.ports]]
+  port = 3000
+  handlers = ["http"]
+
+[[services.ports]]
+  port = 4000
+  handlers = ["http"]

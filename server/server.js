@@ -19,6 +19,14 @@ app.use(bodyParser.json())
 
 app.use(logger)
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client', 'dist')))
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+  })
+}
+
 app.use('/api/auth', authRoutes, validateUserRegistration)
 app.use('/api', quizRoutes)
 app.use('/api', userRoutes)
