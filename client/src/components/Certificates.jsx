@@ -1,18 +1,24 @@
 import React from 'react'
+import Certificate from './Certificate'
+import './Certificates.css'
 
-const Certificates = ({ certificates }) => {
+const Certificates = ({ certificates, username }) => {
+  if (!certificates || certificates.length === 0) {
+    return (
+      <p className='certificates-container'>
+        No certificates yet! Keep quizzing! 🐸
+      </p>
+    )
+  }
+  console.log(certificates)
   return (
     <div className='feature'>
-      <h2>Certificates</h2>
-      {certificates.length > 0 ? (
-        <ul>
-          {certificates.map((cert, index) => (
-            <li key={index}>{cert}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>No certificates earned yet.</p>
-      )}
+      <h2>Your Certificates</h2>
+      <ul>
+        {certificates.map((cert, index) => (
+          <Certificate username={username} quizName={cert} />
+        ))}
+      </ul>
     </div>
   )
 }

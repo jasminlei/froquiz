@@ -49,8 +49,7 @@ function Profile() {
       </div>
 
       <div className='features'>
-        <Certificates certificates={certificates} />
-        <BestScores bestScores={bestScores} />
+        <Certificates certificates={certificates} username={username} />
       </div>
     </div>
   )
