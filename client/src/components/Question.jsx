@@ -5,7 +5,7 @@ const Question = ({ question, handleAnswerChange }) => {
   const [animate, setAnimate] = useState('question-enter')
 
   useEffect(() => {
-    setAnimate('question-enter') // Uusi kysymys saa sisääntuloefektin
+    setAnimate('question-enter')
   }, [question])
 
   return (
@@ -26,6 +26,7 @@ const Question = ({ question, handleAnswerChange }) => {
                 type='radio'
                 name={`question-${question.id}`}
                 value={option.id}
+                required
                 onChange={() => handleAnswerChange(question.id, option.id)}
               />
               {option.answer_text}
@@ -46,6 +47,7 @@ const Question = ({ question, handleAnswerChange }) => {
             type='text'
             id={`question-${question.id}-answer`}
             className='open-ended-input'
+            required
             onChange={(e) =>
               handleAnswerChange(question.id, null, e.target.value)
             }

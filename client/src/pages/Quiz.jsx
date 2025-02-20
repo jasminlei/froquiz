@@ -16,6 +16,7 @@ function QuizPage() {
   const [score, setScore] = useState(null)
   const [wrongAnswers, setWrongAnswers] = useState([])
   const [showResults, setShowResults] = useState(false)
+  const [canProceed, setCanProceed] = useState(false)
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -44,17 +45,31 @@ function QuizPage() {
       } else {
         updatedAnswers.push({ questionId, textAnswer })
       }
+
+      // Tarkistetaan, onko kaikkiin kysymyksiin vastattu
+      const currentQuestion = quizData.questions[currentQuestionIndex]
+      const questionAnswered = updatedAnswers.some(
+        (answer) => answer.questionId === currentQuestion.id
+      )
+      setCanProceed(questionAnswered)
+
       return updatedAnswers
     })
   }
 
   const handleNextQuestion = () => {
+    if (!canProceed) {
+      alert('Please answer the question before proceeding.')
+      return
+    }
+
     if (currentQuestionIndex < quizData.questions.length - 1) {
       const currentElement = document.querySelector('.question-container')
       currentElement.classList.add('question-exit')
 
       setTimeout(() => {
         setCurrentQuestionIndex((prevIndex) => prevIndex + 1)
+        setCanProceed(false)
       }, 500)
     } else {
       handleSubmit()
@@ -113,7 +128,11 @@ function QuizPage() {
         />
       </div>
 
-      <button className='quiz-button' onClick={handleNextQuestion}>
+      <button
+        className='quiz-button'
+        onClick={handleNextQuestion}
+        disabled={!canProceed}
+      >
         {currentQuestionIndex < quizData.questions.length - 1
           ? 'Next'
           : 'Submit'}
