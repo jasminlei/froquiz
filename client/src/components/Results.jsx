@@ -39,7 +39,7 @@ function Results({ score, wrongAnswers, maxScore }) {
           <p>
             Your score is {score}/{maxScore}, which is just enough to get
             certified! See and download your certificate at{' '}
-            <Link to={`/profile}`}>your profile</Link>.
+            <Link to={`/profile`}>your profile</Link>.
           </p>
         </div>
       )}

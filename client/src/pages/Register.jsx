@@ -50,31 +50,33 @@ const Register = () => {
         <div className='speech-bubble'>Yay! Fill your information below</div>
       </div>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='username'>Username</label>
-          <input
-            type='text'
-            id='username'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder='Enter your username'
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='password'>Password</label>
-          <input
-            type='password'
-            id='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder='Enter your password'
-            required
-          />
-        </div>
-        <button type='submit'>Register</button>
-      </form>
+      <div className='auth-container'>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor='username'>Username</label>
+            <input
+              type='text'
+              id='username'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder='Enter your username'
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor='password'>Password</label>
+            <input
+              type='password'
+              id='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder='Enter your password'
+              required
+            />
+          </div>
+          <button type='submit'>Register</button>
+        </form>
+      </div>
     </div>
   )
 }
